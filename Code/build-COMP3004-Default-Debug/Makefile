@@ -52,10 +52,12 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../COMP3004/main.cpp \
+SOURCES       = ../COMP3004/centralproccess.cpp \
+		../COMP3004/main.cpp \
 		../COMP3004/mainwindow.cpp qrc_resources.cpp \
 		moc_mainwindow.cpp
-OBJECTS       = main.o \
+OBJECTS       = centralproccess.o \
+		main.o \
 		mainwindow.o \
 		qrc_resources.o \
 		moc_mainwindow.o
@@ -268,7 +270,9 @@ DIST          = ../../../Qt/5.14.1/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.14.1/clang_64/mkspecs/features/exceptions.prf \
 		../../../Qt/5.14.1/clang_64/mkspecs/features/yacc.prf \
 		../../../Qt/5.14.1/clang_64/mkspecs/features/lex.prf \
-		../COMP3004/COMP3004.pro ../COMP3004/mainwindow.h ../COMP3004/main.cpp \
+		../COMP3004/COMP3004.pro ../COMP3004/centralproccess.h \
+		../COMP3004/mainwindow.h ../COMP3004/centralproccess.cpp \
+		../COMP3004/main.cpp \
 		../COMP3004/mainwindow.cpp
 QMAKE_TARGET  = COMP3004
 DESTDIR       = 
@@ -752,8 +756,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../COMP3004/resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.14.1/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../COMP3004/mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../COMP3004/main.cpp ../COMP3004/mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../COMP3004/centralproccess.h ../COMP3004/mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../COMP3004/centralproccess.cpp ../COMP3004/main.cpp ../COMP3004/mainwindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../COMP3004/mainwindow.ui $(DISTDIR)/
 
 
@@ -803,6 +807,9 @@ moc_mainwindow.cpp: ../COMP3004/mainwindow.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QPushButton \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../COMP3004/centralproccess.h \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/david/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/david/COMP3004/Code/build-COMP3004-Default-Debug/moc_predefs.h -I/Users/david/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/david/COMP3004/Code/COMP3004 -I/Users/david/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/david/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/david/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/include -F/Users/david/Qt/5.14.1/clang_64/lib ../COMP3004/mainwindow.h -o moc_mainwindow.cpp
@@ -830,11 +837,17 @@ compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_heade
 
 ####### Compile
 
+centralproccess.o: ../COMP3004/centralproccess.cpp ../COMP3004/centralproccess.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o centralproccess.o ../COMP3004/centralproccess.cpp
+
 main.o: ../COMP3004/main.cpp ../COMP3004/mainwindow.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QPushButton \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../COMP3004/centralproccess.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../COMP3004/main.cpp
@@ -844,13 +857,14 @@ mainwindow.o: ../COMP3004/mainwindow.cpp ../COMP3004/mainwindow.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QPushButton \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../COMP3004/centralproccess.h \
 		ui_mainwindow.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QGraphicsView \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qgraphicsview.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QGraphicsPixmapItem \
-		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
-		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QPushButton \
-		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../COMP3004/mainwindow.cpp
 
 qrc_resources.o: qrc_resources.cpp 

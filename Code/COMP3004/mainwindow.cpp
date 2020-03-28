@@ -33,15 +33,13 @@ MainWindow::~MainWindow()
     delete scene;
     delete powerBtn;
     delete ui;
+    delete centralProccess;
 }
 
 void MainWindow::handlePowerButton()
 {
     // example of what happens when btn is pressed, we want this to call
     // the CentralProccess class and startup the display and whatever else
-   // change the text
-   powerBtn->setText("Example");
-   // resize button
-   powerBtn->resize(100,100);
+    centralProccess->initialize();
 }
 

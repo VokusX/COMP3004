@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QPushButton>
+#include <centralproccess.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,5 +25,6 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QPushButton *powerBtn;
+    CentralProccess *centralProccess;
 };
 #endif // MAINWINDOW_H
