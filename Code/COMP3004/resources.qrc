@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>denas.png</file>
+    </qresource>
+</RCC>
