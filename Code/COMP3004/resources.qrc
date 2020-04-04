@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/images">
-        <file>HEAD.png</file>
-        <file>NECK.png</file>
-        <file>JOINTS.png</file>
-        <file>denas.png</file>
-    </qresource>
-</RCC>
