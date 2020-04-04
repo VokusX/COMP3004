@@ -76,6 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->programTitleLabel->hide();
     ui->listWidget->hide();
     ui->powerLevelLabel->hide();
+    ui->powerLevelProgBar->hide();
     ui->batteryProgBar->hide();
     ui->timer->hide();
 
@@ -185,7 +186,6 @@ void MainWindow::on_powerButton_clicked() {
         // re-enable buttons and display menu
         // hide all the UI elements until we power on
         ui->batteryLabel->show();
-        ui->fillerLabel->show();
         ui->listWidget->show();
         ui->powerLevelLabel->show();
         ui->batteryProgBar->show();
