@@ -48,6 +48,8 @@ private slots:
 
     void on_rightButton_clicked();
 
+    void on_powerButton_clicked();
+
 
 private:
     Ui::MainWindow *ui;
@@ -73,6 +75,6 @@ private:
     QHash<QString, QString > programsData;
     QHash<QString, QString > frequencyData;
 
-
+    bool powerOn = false;
 };
 #endif // MAINWINDOW_H

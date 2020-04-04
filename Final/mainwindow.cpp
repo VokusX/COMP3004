@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
     powerBtn = new QPushButton("", this);
     // set size and location of the button
     powerBtn->setGeometry(QRect(QPoint(130, 625), QSize(50, 50)));
+    powerBtn->setStyleSheet("QPushButton{background: transparent;}");
+    connect(powerBtn, SIGNAL (released()),this, SLOT (on_powerButton_clicked()));
 
     //Populate the Menus
 
@@ -65,60 +67,33 @@ MainWindow::MainWindow(QWidget *parent)
     //Add the frequencies to the Hash
     this->frequencyData.insert("10 Hz","Program");
     this->frequencyData.insert("60 Hz","Program");
-   this->frequencyData.insert("125 Hz","Program");
+    this->frequencyData.insert("125 Hz","Program");
     this->frequencyData.insert("200 Hz","Program");
 
+    // hide all the UI elements until we power on
+    ui->batteryLabel->hide();
+    ui->fillerLabel->hide();
+    ui->programTitleLabel->hide();
+    ui->listWidget->hide();
+    ui->powerLevelLabel->hide();
+    ui->batteryProgBar->hide();
+    ui->timer->hide();
 
-    //When the simulation starts, display the Main menu and select the top item
-    displayMenu(&mainMenu);
-    std::string ba = std::to_string(cp.batteryLevel) + "%";
-    QString qstr = QString::fromStdString(ba);
+    // disable all the buttons until needed
+    ui->okButton->hide();
+    ui->upButton->hide();
+    ui->downButton->hide();
+    ui->rightButton->hide();
+    ui->leftButton->hide();
+    ui->backButton->hide();
 
-    ui->batteryProgBar->setValue(cp.batteryLevel);
-
-    ui->batteryLabel->setText(qstr);
-    ui->programTitleLabel->setVisible(false);
-    ui->pictureLabel->setVisible(false);
-    ui->fillerLabel->setVisible(false);
-
-
-    ui->program_lbl->setVisible(false);
-    ui->program_freq->setVisible(false);
-    ui->program_wave->setVisible(false);
-
-    ui->program_lbl->setText("");
-    ui->program_freq->setText("");
-    ui->program_wave->setText("");
-
-    ba = std::to_string(cp.powerLevel) + " power level";
-    qstr = QString::fromStdString(ba);
-
-    ui->powerLevelLabel->setText(qstr);
-
-    // Set up Timer
-    t = new QTimer(this);
-    t->setInterval(1000);
-    connect(t, &QTimer::timeout, [&]() {
-        cp.timeOfTherapy += 1;
-        updateTimer();
-        updateBattery();
-        updateLabels();
-        cp.runSim();
-        cp.checkBatteryLevel();
-
-        if(cp.batteryLevel < 1) {
-            t->stop();
-        }
-
-        //cp.runSim();
-
-
-       //ui->timer->setText(time1);
-    } );
-
-    updateBattery();
-
-
+    // set button backrounds to transparent
+    ui->okButton->setStyleSheet("QPushButton{background: transparent;}");
+    ui->upButton->setStyleSheet("QPushButton{background: transparent;}");
+    ui->downButton->setStyleSheet("QPushButton{background: transparent;}");
+    ui->rightButton->setStyleSheet("QPushButton{background: transparent;}");
+    ui->leftButton->setStyleSheet("QPushButton{background: transparent;}");
+    ui->backButton->setStyleSheet("QPushButton{background: transparent;}");
 
 }
 
@@ -128,6 +103,104 @@ MainWindow::~MainWindow()
     delete scene;
     delete powerBtn;
     delete ui;
+}
+
+void MainWindow::on_powerButton_clicked() {
+    // two cases, either we are powering on or powering off and toggle the power state
+    if(powerOn){
+        // hide all the UI elements until we power on
+        ui->batteryLabel->hide();
+        ui->fillerLabel->hide();
+        ui->programTitleLabel->hide();
+        ui->listWidget->hide();
+        ui->powerLevelLabel->hide();
+        ui->batteryProgBar->hide();
+        ui->pictureLabel->hide();
+        ui->program_lbl->hide();
+        ui->program_freq->hide();
+        ui->program_wave->hide();
+
+        // disable all the buttons until needed
+        ui->okButton->hide();
+        ui->upButton->hide();
+        ui->downButton->hide();
+        ui->rightButton->hide();
+        ui->leftButton->hide();
+        ui->backButton->hide();
+    }
+    // otherwise power on the device
+    else{
+        // init all the central proccess functions
+        cp.initialize();
+
+        //When the simulation starts, display the Main menu and select the top item
+        displayMenu(&mainMenu);
+        std::string ba = std::to_string(cp.batteryLevel) + "%";
+        QString qstr = QString::fromStdString(ba);
+
+        ui->batteryProgBar->setValue(cp.batteryLevel);
+
+        ui->batteryLabel->setText(qstr);
+        ui->programTitleLabel->setVisible(false);
+        ui->pictureLabel->setVisible(false);
+        ui->fillerLabel->setVisible(false);
+
+
+        ui->program_lbl->setVisible(false);
+        ui->program_freq->setVisible(false);
+        ui->program_wave->setVisible(false);
+
+        ui->program_lbl->setText("");
+        ui->program_freq->setText("");
+        ui->program_wave->setText("");
+
+        ba = std::to_string(cp.powerLevel) + " power level";
+        qstr = QString::fromStdString(ba);
+
+        ui->powerLevelLabel->setText(qstr);
+
+        // Set up Timer
+        t = new QTimer(this);
+        t->setInterval(1000);
+        connect(t, &QTimer::timeout, [&]() {
+            cp.timeOfTherapy += 1;
+            updateTimer();
+            updateBattery();
+            updateLabels();
+            cp.runSim();
+            cp.checkBatteryLevel();
+
+            if(cp.batteryLevel < 1) {
+                t->stop();
+            }
+
+            //cp.runSim();
+
+
+           //ui->timer->setText(time1);
+        } );
+
+        updateBattery();
+
+        // re-enable buttons and display menu
+        // hide all the UI elements until we power on
+        ui->batteryLabel->show();
+        ui->fillerLabel->show();
+        ui->listWidget->show();
+        ui->powerLevelLabel->show();
+        ui->batteryProgBar->show();
+
+        // disable all the buttons until needed
+        ui->okButton->show();
+        ui->upButton->show();
+        ui->downButton->show();
+        ui->rightButton->show();
+        ui->leftButton->show();
+        ui->backButton->show();
+    }
+
+    // toggle the power state
+    powerOn = !powerOn;
 }
 
 void MainWindow::on_okButton_clicked()

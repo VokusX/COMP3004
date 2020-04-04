@@ -20,6 +20,7 @@ class CentralProcess {
     void end();
     void reset();
     void runSim();
+    void initialize();
 };
 
 #endif

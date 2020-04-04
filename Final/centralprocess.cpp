@@ -4,13 +4,14 @@ CentralProcess::CentralProcess() {
     /*  What this function does is simulates the device being booted, as we all know in real life, devices are not always
       at 100% battery when booted so this generates the starting battery level randomly between 50 and 100. */
     srand (time (0)); // Helps achieve "true randomness"
+
+}
+
+void CentralProcess::initialize() {
     int battery = rand() % 50 + 50;
     std::cout << "Device has been booted." << std::endl;
-    sleep(1);
     std::cout << "..." << std::endl; // Theatrics we all love them
-    sleep(1);
     std::cout << "Initial Battery Power: " << battery << "." << std::endl;
-    sleep(1);
     powerLevel = 0;
     batteryLevel = battery;
     timeOfTherapy = 0;
@@ -23,7 +24,6 @@ CentralProcess::CentralProcess() {
     d.freq = 0;
     d.waveform = "default";
     program = d;
-
 }
 
 void CentralProcess::end() {
